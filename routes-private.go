@@ -277,3 +277,25 @@ func (api *Api) WithdrawFunds(currency, address string, amount float64) (Withdra
 
 	return res, nil
 }
+
+// Transfers
+func (api *Api) Transfers(limitTransfers, timestamp int64) ([]Transfer, error) {
+
+    url := api.url + TRANSFERS_URI
+    params := map[string]interface{}{
+        "request": TRANSFERS_URI,
+        "nonce": Nonce(),
+        "limit_transfers": limitTransfers,
+        "timestamp": timestamp,
+    }
+
+    var res []Transfer
+
+    body, err := api.request("POST", url, params)
+    if err != nil {
+        return res, err
+    }
+
+    json.Unmarshal(body, &res)
+    return res, nil
+}

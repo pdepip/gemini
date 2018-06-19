@@ -41,6 +41,7 @@ const (
 	BALANCES_URI            = "/v1/balances"
 	NEW_DEPOSIT_ADDRESS_URI = "/v1/deposit/"
 	WITHDRAW_FUNDS_URI      = "/v1/withdraw/"
+	TRANSFERS_URI           = "/v1/transfers"
 
 	// websockets
 	ORDER_EVENTS_URI = "/v1/order/events"
@@ -96,6 +97,20 @@ func (id *Id) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+type Transfer struct {
+	Type        string  `json:"type"`
+	Status      string  `json:"status"`
+	TimestampMs int64   `json:"timestampms"`
+	EId         int64   `json:"eid"`
+	Currency    string  `json:"currency"`
+	Amount      float64 `json:"amount,string"`
+	Method      string  `json:"method"`
+	TxHash      string  `json:"txHash"`
+	OutputIdx   int64   `json:"outputIdx"`
+	Destination string  `json:"destination"`
+	Purpose     string  `json:"purpose"`
+}
+
 type Order struct {
 	OrderId           Id      `json:"order_id"`
 	ClientOrderId     string  `json:"client_order_id"`
@@ -117,7 +132,8 @@ type Order struct {
 type Trade struct {
 	OrderId       Id      `json:"order_id"`
 	TradeId       Id      `json:"tid"`
-	Timestamp     int64   `json:"timestampms"`
+	Timestamp     int64   `json:"timestamp"`
+	TimestampMs   int64   `json:"timestampms"`
 	Exchange      string  `json:"exchange"`
 	Type          string  `json:"type"`
 	FeeCurrency   string  `json:"fee_currency"`

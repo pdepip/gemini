@@ -65,10 +65,13 @@ func (api *Api) Trades(symbol string, since int64, limitTrades int, includeBreak
 
 	url := api.url + TRADES_URI + symbol
 	params := map[string]interface{}{
-		"since":          strconv.Itoa(int(since)),
 		"limit_trades":   strconv.Itoa(limitTrades),
 		"include_breaks": strconv.FormatBool(includeBreaks),
 	}
+
+    if since >= 0 {
+        params["since"] = strconv.Itoa(int(since))
+    }
 
 	var res []Trade
 
